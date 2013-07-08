@@ -62,7 +62,7 @@ command <<-COMMAND
 (
 cat <<'EOF'
 #!/bin/bash 
-export PATH=$PATH:/opt/mysql/server-5.6/bin
+export PATH=/opt/mysql/server-5.6/bin:$PATH
 EOF
 ) > /etc/profile.d/mysql.sh
 COMMAND
