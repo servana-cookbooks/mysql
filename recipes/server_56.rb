@@ -73,7 +73,7 @@ link "/etc/my.cnf" do
 end
 
 unless platform?(%w{debian ubuntu})
-
+  node.set['mysql']['mysqladmin_bin'] = "/opt/mysql/server-5.6/bin/mysqladmin"
   execute "assign-root-password" do
     command "\"#{node['mysql']['mysqladmin_bin']}\" -u root password \"#{node['mysql']['server_root_password']}\""
     action :run
@@ -97,7 +97,7 @@ end
     end
   end
 
-   node.set['mysql']['mysql_bin'] = "/opt/mysql/server-5.6/bin"
+   node.set['mysql']['mysql_bin'] = "/opt/mysql/server-5.6/bin/mysql"
    execute "mysql-install-privileges" do
       command "\"#{node['mysql']['mysql_bin']}\" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }\"#{node['mysql']['server_root_password']}\" < \"#{grants_path}\""
       action :nothing
