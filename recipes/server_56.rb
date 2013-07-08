@@ -1,4 +1,7 @@
 
+::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
+include_recipe "mysql::client"
+
 package "libaio-dev" do 
 	action :install
 end
