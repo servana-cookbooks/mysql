@@ -57,10 +57,6 @@ if platform?(%w{debian ubuntu})
 
 end
 
-execute "dpkg -i /tmp/mysql-5.6.12-debian6.0-i686.deb"
-
-
-
 execute "/etc/profile.d/mysql.sh" do
 command <<-COMMAND
 (
