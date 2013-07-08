@@ -97,19 +97,13 @@ end
     end
   end
 
-  if platform? 'windows'
-    windows_batch "mysql-install-privileges" do
+   node.set['mysql']['mysql_bin'] = "/opt/mysql/server-5.6/bin"
+   execute "mysql-install-privileges" do
       command "\"#{node['mysql']['mysql_bin']}\" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }\"#{node['mysql']['server_root_password']}\" < \"#{grants_path}\""
       action :nothing
       subscribes :run, resources("template[#{grants_path}]"), :immediately
-    end
-  else
-    execute "mysql-install-privileges" do
-      command "\"#{node['mysql']['mysql_bin']}\" -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }\"#{node['mysql']['server_root_password']}\" < \"#{grants_path}\""
-      action :nothing
-      subscribes :run, resources("template[#{grants_path}]"), :immediately
-    end
-  end
+   end
+
 
 
  service "mysql" do
