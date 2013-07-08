@@ -6,10 +6,19 @@ package "libaio-dev" do
 	action :install
 end
 
-execute  "wget -O /tmp/mysql-5.6.12-debian6.0-i686.deb http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.12-debian6.0-i686.deb/from/http://cdn.mysql.com/"
+case node['kernel']['machine']
+  when "x86_64"
+      get_mysql =  "mysql-5.6.12-debian6.0-x86_64.deb"
+  when "i686"
+      get_mysql =  "mysql-5.6.12-debian6.0-i686.deb"
+else
+      get_mysql =  "mysql-5.6.12-debian6.0-i686.deb"
+end
+
+execute  "wget -O /tmp/#{get_mysql} http://dev.mysql.com/get/Downloads/MySQL-5.6/#{get_mysql}/from/http://cdn.mysql.com/"
 
 dpkg_package "mysql-server" do
-  source "/tmp/mysql-5.6.12-debian6.0-i686.deb"
+  source "/tmp/#{get_mysql}"
   action :install
 end
 
