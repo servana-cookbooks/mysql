@@ -130,4 +130,15 @@ end
   end
 
 
+ service "mysql" do
+    service_name node['mysql']['service_name']
+    if node['mysql']['use_upstart']
+      restart_command "restart mysql"
+      stop_command "stop mysql"
+      start_command "start mysql"
+    end
+    supports :status => true, :restart => true, :reload => true
+    action :nothing
+  end
+  
 #mysql_upgrade
