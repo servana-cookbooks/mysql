@@ -22,6 +22,21 @@ dpkg_package "mysql-server" do
   action :install
 end
 
+directory "/var/log/mysql"
+
+group "mysql" do
+  system true
+  action :create
+end
+
+user "mysql" do
+  gid "mysql"
+  shell "/bin/bash"
+  supports :manage_home => false
+  system true
+  action :create
+end
+
 node.set_unless['mysql']['server_debian_password'] = secure_password
 node.set_unless['mysql']['server_root_password']   = secure_password
 node.set_unless['mysql']['server_repl_password']   = secure_password
