@@ -54,21 +54,7 @@ end
 
 execute "dpkg -i /tmp/mysql-5.6.12-debian6.0-i686.deb"
 
-template "#{node['mysql']['conf_dir']}/my.cnf" do
-    source "my56.cnf.erb"
-    owner "root" unless platform? 'windows'
-    group node['mysql']['root_group'] unless platform? 'windows'
-    mode "0644"
-    case node['mysql']['reload_action']
-    when 'restart'
-      notifies :restart, resources(:service => "mysql"), :immediately
-    when 'reload'
-      notifies :reload, resources(:service => "mysql"), :immediately
-    else
-      Chef::Log.info "my.cnf updated but mysql.reload_action is #{node['mysql']['reload_action']}. No action taken."
-    end
-    variables :skip_federated => skip_federated
-  end
+
 
 execute "/etc/profile/mysql.sh" do
 command <<-COMMAND
@@ -140,5 +126,30 @@ end
     supports :status => true, :restart => true, :reload => true
     action :nothing
   end
-  
+ 
+ skip_federated = case node['platform']
+                   when 'fedora', 'ubuntu', 'amazon'
+                     true
+                   when 'centos', 'redhat', 'scientific'
+                     node['platform_version'].to_f < 6.0
+                   else
+                     false
+                   end
+
+ template "#{node['mysql']['conf_dir']}/my.cnf" do
+    source "my56.cnf.erb"
+    owner "root" unless platform? 'windows'
+    group node['mysql']['root_group'] unless platform? 'windows'
+    mode "0644"
+    case node['mysql']['reload_action']
+    when 'restart'
+      notifies :restart, resources(:service => "mysql"), :immediately
+    when 'reload'
+      notifies :reload, resources(:service => "mysql"), :immediately
+    else
+      Chef::Log.info "my.cnf updated but mysql.reload_action is #{node['mysql']['reload_action']}. No action taken."
+    end
+    variables :skip_federated => skip_federated
+  end
+
 #mysql_upgrade
