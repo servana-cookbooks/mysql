@@ -6,7 +6,7 @@ package "libaio-dev" do
 	action :install
 end
 
-execute  "wget -O /tmp/mysql-5.6.12-debian6.0-i686.deb http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.12-debian6.0-i686.deb/from/http://cdn.mysql.com/" do
+execute  "wget -O /tmp/mysql-5.6.12-debian6.0-i686.deb http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.12-debian6.0-i686.deb/from/http://cdn.mysql.com/"
 
 dpkg_package "mysql-server" do
   source "/tmp/mysql-5.6.12-debian6.0-i686.deb"
