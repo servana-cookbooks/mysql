@@ -17,12 +17,13 @@ end
 
 execute  "wget -O /tmp/#{get_mysql} http://dev.mysql.com/get/Downloads/MySQL-5.6/#{get_mysql}/from/http://cdn.mysql.com/"
 
-dpkg_package "mysql-server" do
-  source "/tmp/#{get_mysql}"
-  action :install
+directory "/var/log/mysql" do
+	action :create
+	owner "mysql"
+	group "mysql"
 end
 
-directory "/var/log/mysql"
+execute "chown -R mysql:mysql /var/run/mysqld"
 
 group "mysql" do
   system true
@@ -70,6 +71,11 @@ if platform?(%w{debian ubuntu})
     mode "0600"
   end
 
+end
+
+dpkg_package "mysql-server" do
+  source "/tmp/#{get_mysql}"
+  action :install
 end
 
 execute "/etc/profile.d/mysql.sh" do
