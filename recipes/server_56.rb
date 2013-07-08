@@ -6,11 +6,7 @@ package "libaio-dev" do
 	action :install
 end
 
-remote_file "/tmp/mysql-5.6.12-debian6.0-i686.deb" do
-  source "http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.12-debian6.0-i686.deb/from/http://cdn.mysql.com/"
-  mode 0644
-  checksum "" # PUT THE SHA256 CHECKSUM HERE
-end
+execute  "wget -O /tmp/mysql-5.6.12-debian6.0-i686.deb http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.12-debian6.0-i686.deb/from/http://cdn.mysql.com/" do
 
 dpkg_package "mysql-server" do
   source "/tmp/mysql-5.6.12-debian6.0-i686.deb"
