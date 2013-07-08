@@ -1,17 +1,10 @@
 
 
-
-node.set['mysql']['data_dir'] = "/opt/mysql/data" 
-include_recipe "mysql::server"
-
-
 node['mysql']['server']['packages'].each do |package_name|
   package package_name do
     action :remove
   end
 end
-
-include_recipe "mysql::client"
 
 package "libaio-dev" do 
 	action :install
@@ -76,6 +69,8 @@ link "/etc/my.cnf" do
 	to "/etc/mysql/my.cnf"
 end
 
+
+#execute "#{node['mysql']['basedir']}/bin/mysqlcheck -uroot -p#{node['mysql']['server_root_password']} --all-databases=true"
 #execute "#{node['mysql']['basedir']}/bin/mysql_upgrade -uroot -p#{node['mysql']['server_root_password']} --all-databases=true"
  
  skip_federated = case node['platform']

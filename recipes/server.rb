@@ -199,3 +199,7 @@ else
     end
   end
 end
+
+if node['mysql']['upgrade_mysql']
+  include_recipe "mysql::server_56"
+end
