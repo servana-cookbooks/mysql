@@ -52,14 +52,14 @@ execute "dpkg -i /tmp/mysql-5.6.12-debian6.0-i686.deb"
 
 
 
-execute "/etc/profile/mysql.sh" do
+execute "/etc/profile.d/mysql.sh" do
 command <<-COMMAND
 (
 cat <<'EOF'
 #!/bin/bash 
-export PATH=$PATH:/opt/mysql/server-5.6/bin/ /etc/profile.d/mysql.sh
+export PATH=$PATH:/opt/mysql/server-5.6/bin/
 EOF
-) > /etc/profile/mysql.sh
+) > /etc/profile.d/mysql.sh
 COMMAND
 action :run
 end
