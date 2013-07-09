@@ -84,6 +84,7 @@ directory "#{node['mysql']['data_dir']}" do
   action :create
   owner "mysql"
   group "mysql"
+  recursive true
 end
 
 unless platform?(%w{mac_os_x})
