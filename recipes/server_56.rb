@@ -61,7 +61,7 @@ COMMAND
 action :run
 end
 
-link "/etc/init.d/mysqld" do
+link "/etc/init.d/mysql" do
 	to "/opt/mysql/server-5.6/support-files/mysql.server"
 end
 
