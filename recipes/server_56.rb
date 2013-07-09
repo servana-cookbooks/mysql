@@ -77,8 +77,8 @@ link "/etc/my.cnf" do
 end
 
 
-#execute "#{node['mysql']['basedir']}/bin/mysqlcheck -uroot -p#{node['mysql']['server_root_password']} --all-databases=true"
-#execute "#{node['mysql']['basedir']}/bin/mysql_upgrade -uroot -p#{node['mysql']['server_root_password']} --all-databases=true"
+execute "#{node['mysql']['basedir']}/bin/mysqlcheck -uroot -p#{node['mysql']['server_root_password']} --all-databases=true"
+execute "#{node['mysql']['basedir']}/bin/mysql_upgrade -uroot -p#{node['mysql']['server_root_password']} --all-databases=true"
  
  skip_federated = case node['platform']
                    when 'fedora', 'ubuntu', 'amazon'
