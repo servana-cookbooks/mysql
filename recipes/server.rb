@@ -80,6 +80,12 @@ node['mysql']['server']['packages'].each do |package_name|
   end
 end
 
+directory "#{node['mysql']['data_dir']}" do
+  action :create
+  owner "mysql"
+  group "mysql"
+end
+
 unless platform?(%w{mac_os_x})
 
   directory node['mysql']['confd_dir'] do
