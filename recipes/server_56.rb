@@ -7,7 +7,15 @@ node['mysql']['server']['packages'].each do |package_name|
   end
 end
 
-package "libaio-dev" do 
+package "mysql-server-core-5.5" do
+    action :remove
+end
+
+package "mysql-server-5.5" do
+    action :remove
+end
+
+package "libaio-dev" do
 	action :install
 end
 
@@ -80,7 +88,7 @@ end
                    else
                      false
                    end
-                   
+
   service "mysql" do
     service_name node['mysql']['service_name']
     if node['mysql']['use_upstart']
