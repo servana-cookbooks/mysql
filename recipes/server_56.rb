@@ -1,4 +1,5 @@
 
+node.set['mysql']['basedir'] = "/opt/mysql/server-5.6" 
 
 node['mysql']['server']['packages'].each do |package_name|
   package package_name do
@@ -42,8 +43,6 @@ execute "chown -R mysql:mysql /var/run/mysqld"
 #  action :create
 #end
 
-node.set['mysql']['basedir'] = "/opt/mysql/server-5.6" 
-
 dpkg_package "mysql-server" do
   source "/tmp/#{get_mysql}"
   action :install
@@ -81,6 +80,17 @@ end
                    else
                      false
                    end
+                   
+  service "mysql" do
+    service_name node['mysql']['service_name']
+    if node['mysql']['use_upstart']
+      restart_command "restart mysql"
+      stop_command "stop mysql"
+      start_command "start mysql"
+    end
+    supports :status => true, :restart => true, :reload => true
+    action :nothing
+  end
 
  template "#{node['mysql']['conf_dir']}/my.cnf" do
     source "my56.cnf.erb"
